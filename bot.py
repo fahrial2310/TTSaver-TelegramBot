@@ -7,18 +7,18 @@ from config import bot, bot_name
 @bot.message_handler(commands=['start'])
 def start_command(message):
     bot.send_message(chat_id=message.chat.id, 
-                    text=('👋 Hello, I will help you download',
-                          ' videos from <b>TikTok</b>.\n\n',
-                          '/help - instructions for using the bot.'), 
+                    text=('👋 Halo, saya akab membantu anda mengunduh',
+                          ' video <b>TikTok</b>.\n\n',
+                          '/help - bantuan untuk menggunakan bot.'), 
                     parse_mode='html')
 
 
 @bot.message_handler(commands=['help'])
 def help_command(message):
     bot.send_message(chat_id=message.chat.id, 
-                    text=('❓ To download a video',
-                          ' from <b>TikTok</b>, just <b>send</b> me video link.\n\n',
-                          '<b>The link must start with:</b>\n🔗 https://vm.tiktok.com/...\n',
+                    text=('❓ Untuk mengunduh video',
+                          ' dari <b>TikTok</b>, <b>kirim</b> link ke saya.\n\n',
+                          '<b>Link harus dimulai dari:</b>\n🔗 https://vm.tiktok.com/...\n',
                           '🔗 http://vm.tiktok.com/...\n\n',
                           '❓ To convert <b>video</b> to <b>audio</b> send me: <b>/c link</b>'), 
                     parse_mode='html')
@@ -35,7 +35,7 @@ def text(message):
             video_url = message.text
 
             try:
-                bot.send_message(chat_id=message.chat.id, text='⏳ Please wait...')
+                bot.send_message(chat_id=message.chat.id, text='⏳ mohon menunggu...')
 
                 snaptik(f"{video_url[:31]}").get_media()[0].download(f"./videos/result_{message.from_user.id}.mp4")
                 path = f'./videos/result_{message.from_user.id}.mp4'
@@ -49,14 +49,14 @@ def text(message):
                 os.remove(path)
 
             except:
-                bot.send_message(chat_id=message.chat.id, text=f'❌ Upload error, wrong link, video deleted or I can\'t find it.')
+                bot.send_message(chat_id=message.chat.id, text=f'❌ Upload error, link salah, video dihapus atau aku tidak bisa menemukannya.')
                 
         elif message.text[:2] == "/c":
             if message.text[3:].startswith('https://vm.tiktok.com') or message.text.startswith('http://vm.tiktok.com'):
                 video_url = message.text[3:]
 
                 try:
-                    bot.send_message(chat_id=message.chat.id, text='⏳ Please wait while I convert your video to audio...')
+                    bot.send_message(chat_id=message.chat.id, text='⏳ harap tunggu semwntara saya mengonversi video anda menjadi audio ...')
 
                     snaptik().get_media(f"{video_url[:31]}")[0].download(f"./videos/result_{message.from_user.id}.mp4")
                     path1 = f'./videos/result_{message.from_user.id}.mp3'
@@ -76,7 +76,7 @@ def text(message):
                     os.remove(path1)
                 
                 except:
-                    bot.send_message(chat_id=message.chat.id, text=f'❌ Upload error, wrong link, video deleted or I can\'t find it.')
+                    bot.send_message(chat_id=message.chat.id, text=f'❌ Upload error, link salah, video dihapus atau aku tidak bisa menemukannya.')
                 
         else:
             bot.send_message(chat_id=message.chat.id, 
